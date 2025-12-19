@@ -24,7 +24,7 @@ from enum import Enum
 
 from telethon import TelegramClient, events, Button, functions, types
 from telethon.errors import (
-    ConnectionError as TelethonConnectionError,
+    # Removed ConnectionError as it's not available in telethon.errors
     FloodWaitError,
     AuthKeyError,
     SessionPasswordNeededError,
@@ -906,7 +906,8 @@ class SikuTagAllBot:
                 logger.error("🔐 Two-factor authentication required!")
                 return False
                 
-            except (TelethonConnectionError, OSError, ConnectionError) as e:
+            except (OSError, ConnectionError) as e:
+                # Removed TelethonConnectionError as it doesn't exist
                 logger.warning(f"❌ Connection attempt {attempt} failed: {e}")
                 
                 if attempt < max_attempts:
@@ -1158,7 +1159,7 @@ Example: /help siku
                 logger.error(f"❌ Siku GN error: {e}")
                 await event.respond(f"❌ Error: {str(e)[:100]}")
         
-        @self.client.on(events.NewMessage(pattern='(?i)/siku addgm (.+)$'))
+        @self.client.on(events.NewMessage(pattern=r'(?i)/siku addgm (.+)$'))
         async def siku_addgm_handler(event):
             """Handle /siku addgm command"""
             self.data.total_commands_executed += 1
@@ -1198,7 +1199,7 @@ Example: /help siku
                 logger.error(f"❌ Siku addgm error: {e}")
                 await event.respond(f"❌ Error: {str(e)[:100]}")
         
-        @self.client.on(events.NewMessage(pattern='(?i)/siku addgn (.+)$'))
+        @self.client.on(events.NewMessage(pattern=r'(?i)/siku addgn (.+)$'))
         async def siku_addgn_handler(event):
             """Handle /siku addgn command"""
             self.data.total_commands_executed += 1
@@ -1238,7 +1239,7 @@ Example: /help siku
                 logger.error(f"❌ Siku addgn error: {e}")
                 await event.respond(f"❌ Error: {str(e)[:100]}")
         
-        @self.client.on(events.NewMessage(pattern='(?i)/siku add (.+)$'))
+        @self.client.on(events.NewMessage(pattern=r'(?i)/siku add (.+)$'))
         async def siku_add_handler(event):
             """Handle /siku add command (custom)"""
             self.data.total_commands_executed += 1
@@ -1446,7 +1447,7 @@ Use responsibly! Follow Telegram rules.
             
             await event.respond(help_text)
         
-        @self.client.on(events.NewMessage(pattern='(?i)/raid start (.+?) (.+)$'))
+        @self.client.on(events.NewMessage(pattern=r'(?i)/raid start (.+?) (.+)$'))
         async def raid_start_handler(event):
             """Handle /raid start command"""
             self.data.total_commands_executed += 1
@@ -1541,7 +1542,7 @@ Use responsibly! Follow Telegram rules.
                 logger.error(f"❌ RAID start error: {e}")
                 await event.respond(f"❌ Error: {str(e)[:100]}")
         
-        @self.client.on(events.NewMessage(pattern='(?i)/raid stop (\w+)$'))
+        @self.client.on(events.NewMessage(pattern=r'(?i)/raid stop (\w+)$'))
         async def raid_stop_handler(event):
             """Handle /raid stop command"""
             self.data.total_commands_executed += 1
@@ -1560,7 +1561,7 @@ Use responsibly! Follow Telegram rules.
                 logger.error(f"❌ RAID stop error: {e}")
                 await event.respond(f"❌ Error: {str(e)[:100]}")
         
-        @self.client.on(events.NewMessage(pattern='(?i)/raid status (\w+)$'))
+        @self.client.on(events.NewMessage(pattern=r'(?i)/raid status (\w+)$'))
         async def raid_status_handler(event):
             """Handle /raid status command"""
             self.data.total_commands_executed += 1
@@ -1668,7 +1669,7 @@ Use responsibly! Follow Telegram rules.
         
         # ========== TAGALL COMMANDS ==========
         
-        @self.client.on(events.NewMessage(pattern='(?i)/tagall(?: (.+))?$'))
+        @self.client.on(events.NewMessage(pattern=r'(?i)/tagall(?: (.+))?$'))
         async def tagall_handler(event):
             """Handle /tagall command"""
             self.data.total_commands_executed += 1
